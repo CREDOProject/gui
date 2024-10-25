@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarProvider } from "@/components/ui/sidebar";
-
+import { SidebarProvider } from "@/components/ui/sidebar";
+import AppSidebar from "@/components/app-sidebar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,16 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <SidebarProvider>
-          <Sidebar>
-            <SidebarHeader />
-            <SidebarContent>
-              <SidebarGroup />
-              <SidebarGroup />
-            </SidebarContent>
-            <SidebarFooter />
-          </Sidebar>
-          <main className="p-4 w-full min-h-screen h-full">
+        <SidebarProvider defaultOpen={false}>
+          <AppSidebar />
+          <main className="p-4 w-full max-h-screen">
             {children}
           </main>
         </SidebarProvider>
