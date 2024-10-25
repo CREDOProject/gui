@@ -1,9 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { RadioGroupItem, RadioGroup } from "@/components/ui/radio-group";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Label } from "@radix-ui/react-label";
+import { Contact, Globe, Plus } from "lucide-react";
+import Link from "next/link";
 
 const HomeNav = () => {
   return (
@@ -12,47 +10,61 @@ const HomeNav = () => {
     </nav>
   )
 }
+
+interface HomeButtons {
+  title: string;
+  icon: JSX.Element;
+  href: string;
+}
+
 export default function Home() {
+  const homeButtons: HomeButtons[] = [{
+    title: "Create project",
+    icon: (
+      <span className="text-teal-600">
+        <Plus />
+      </span>
+    ),
+    href: "/project/new"
+  },
+  {
+    title: "Explore public project",
+    icon: (
+      <span className="text-pink-600">
+        <Globe />
+      </span>
+    ),
+    href: "/project/explore",
+  }, {
+    title: "Create a new group",
+    icon: (
+      <span className="text-blue-600">
+        <Contact />
+      </span>
+    ),
+    href: "/group/new",
+  }]
+
   return (
     <>
-      <HomeNav />
-      <div className="flex flex-col items-center">
-        <Card className="max-w-sm w-full">
-          <CardHeader>
-            <CardTitle>Create a project</CardTitle>
-            <CardDescription>Get started with your new CREDO project.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form className="flex flex-col gap-4">
-              <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="name">Name</Label>
-                  <Input id="name" placeholder="Name of your project" />
-                </div>
-              </div>
-              <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="name">Base Image</Label>
-                  <RadioGroup className="grid-cols-2">
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="option-one" id="option-one" />
-                      <Label htmlFor="option-one">Ubuntu</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="option-two" id="option-two" />
-                      <Label htmlFor="option-two">Fedora</Label>
-                    </div>
-                  </RadioGroup>
-                </div>
-              </div>
-            </form>
-          </CardContent>
-          <CardFooter className="flex justify-end gap-4">
-            <Button variant="outline">Cancel</Button>
-            <Button>Create</Button>
-          </CardFooter>
-        </Card>
-      </div>
+      <div className="flex flex-col justify-evenly max-h-screen h-full">
+        <HomeNav />
+        <div className="flex flex-col items-center justify-center max-h-full h-full">
+          <h1 className="text-2xl font-semibold">What can I help with?</h1>
+          <div className="flex flex-col items-center animate-in slide-in-from-bottom-8 fade-in">
+            <div className="flex space-x-4 mt-6">
+              {homeButtons.map(({ icon, title, href }, i) =>
+                <Link href={href} key={i}>
+                  <Button variant="rounded">
+                    {icon}
+                    {title}
+                  </Button>
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      </div >
     </>
   );
 }
