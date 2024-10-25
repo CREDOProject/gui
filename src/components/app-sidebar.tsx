@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react'
 
 import {
@@ -13,6 +15,7 @@ import {
 import Link from "next/link";
 import { ChevronUp, Contact, Home, User2, Wrench } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
+import { usePathname } from 'next/navigation';
 
 interface MenuItems {
 	title: string,
@@ -38,6 +41,7 @@ const menuItems: MenuItems[] = [
 	},
 ]
 export default function AppSidebar() {
+	const path = usePathname();
 	return (
 		<Sidebar variant="floating">
 			<SidebarContent>
@@ -48,7 +52,9 @@ export default function AppSidebar() {
 					<SidebarMenu>
 						{menuItems.map((item) => (
 							<SidebarMenuItem key={item.title}>
-								<SidebarMenuButton asChild>
+								<SidebarMenuButton asChild
+									className={
+										path === item.href ? "!bg-secondary-foreground !text-primary-foreground" : ""}>
 									<Link href={item.href}>
 										<item.icon />
 										<span>{item.title}</span>
@@ -81,7 +87,7 @@ export default function AppSidebar() {
 				</SidebarMenu>
 
 			</SidebarFooter>
-		</Sidebar>
+		</Sidebar >
 	)
 }
 
