@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 import {
 	Sidebar,
@@ -19,24 +19,24 @@ import { usePathname } from 'next/navigation';
 
 interface MenuItems {
 	title: string,
-	icon: any,
+	icon: ReactNode,
 	href: string,
 }
 
 const menuItems: MenuItems[] = [
 	{
 		title: "Home",
-		icon: Home,
+		icon: <Home />,
 		href: "/",
 	},
 	{
 		title: "Projects",
-		icon: Wrench,
+		icon: <Wrench />,
 		href: "/project",
 	},
 	{
 		title: "Groups",
-		icon: Contact,
+		icon: <Contact />,
 		href: "/group",
 	},
 ]
@@ -56,7 +56,7 @@ export default function AppSidebar() {
 									className={
 										path === item.href ? "!bg-secondary-foreground !text-primary-foreground" : ""}>
 									<Link href={item.href}>
-										<item.icon />
+										{item.icon}
 										<span>{item.title}</span>
 									</Link>
 								</SidebarMenuButton>
