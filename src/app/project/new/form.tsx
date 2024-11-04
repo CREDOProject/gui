@@ -15,11 +15,14 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Card } from "@/components/ui/card";
 import { ButtonGroup, ButtonGroupItem } from "@/components/ui/button-group";
+import { Label } from "@radix-ui/react-dropdown-menu";
+import { toKebabCase } from "@/lib/KebabCase";
+import { generateRandomName } from "@/lib/RandomNameGenerator";
+import { useEffect } from "react";
 
 const formSchema = z.object({
-	projectName: z.string().min(2, {
-		message: "Project name must be at least 2 characters.",
-	}),
+	projectName: z.string(),
+	projectId: z.string(),
 	baseDistribution: z.enum(["ubuntu", "fedora"]),
 })
 
@@ -28,12 +31,25 @@ export function NewProjectForm() {
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			projectName: "",
+			projectId: "",
 			baseDistribution: "ubuntu",
 		},
 	})
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		console.log(values)
 	}
+
+	const { watch } = form
+
+	useEffect(() => {
+		form.setValue("projectId", generateRandomName())
+		const { unsubscribe } = watch(
+			({ projectName }) => {
+				form.setValue("projectId", toKebabCase(projectName || generateRandomName()))
+			})
+		return () => unsubscribe()
+	}, [watch])
+
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)}
@@ -53,6 +69,20 @@ export function NewProjectForm() {
 						</FormItem>
 					)}
 				/>
+				<FormField
+					control={form.control}
+					name="projectId"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Project Id</FormLabel>
+							<FormControl>
+								<Label>
+									{field.value || " "}
+								</Label>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)} />
 				<FormField
 					control={form.control}
 					name="baseDistribution"
@@ -88,6 +118,6 @@ export function NewProjectForm() {
 				/>
 				< Button type="submit" > Create</Button >
 			</form >
-		</Form >
+		</Form>
 	)
 }

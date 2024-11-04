@@ -1,7 +1,8 @@
 import { AppBreadcrumb } from '@/components/app-breadcrumb';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Globe, Plus } from 'lucide-react';
+import Link from 'next/link';
 import React from 'react'
 import { ReactNode } from 'react'
 
@@ -16,9 +17,9 @@ const layout = ({ children }: { children?: ReactNode }) => {
             <Button variant="secondary" size="icon">
               <Globe />
             </Button>
-            <Button size="icon">
+            <Link className={buttonVariants({ variant: "default", size: "icon" })} href="/project/new">
               <Plus />
-            </Button>
+            </Link>
           </span>
         </div>
       </nav>
