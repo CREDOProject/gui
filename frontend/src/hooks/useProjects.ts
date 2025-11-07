@@ -3,28 +3,28 @@ import {
   ProjectListType,
 } from "@/services/ProjectService.interface";
 import { ProjectHookResult, ProjectType } from "@/types/project";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const useProjects = (
   projectService: IProjectService,
 ): ProjectHookResult => {
-  const [projects, setProjects] = useState<ProjectListType>([]);
+  const [projects, setProjects] = useState<ProjectListType>({ files: [] });
   const [isLoading, setIsLoading] = useState(false);
 
-  const getProjects = useCallback(async (): Promise<ProjectType[]> => {
+  const getProjects = useCallback(async (): Promise<ProjectListType> => {
     setIsLoading(true);
     const data = await projectService.getProjects();
     setProjects(projects);
     setIsLoading(false);
     return data;
-  }, [projectService]);
+  }, []);
 
   const deleteProject = useCallback(
     async (projectId: string): Promise<void> => {
       await projectService.deleteProject(projectId);
       await getProjects();
     },
-    [getProjects, projectService],
+    [],
   );
 
   const createProject = useCallback(
@@ -33,8 +33,12 @@ export const useProjects = (
       await getProjects();
       return newProject as ProjectType;
     },
-    [getProjects, projectService],
+    [],
   );
+
+  useEffect(() => {
+    getProjects();
+  }, []);
 
   return {
     projects,

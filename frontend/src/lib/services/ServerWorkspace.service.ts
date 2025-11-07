@@ -1,8 +1,7 @@
-import { promises as fs } from "fs";
+import { Dirent, promises as fs } from "fs";
 import path from "path";
 import { BASE_DIR } from "@/lib/variables";
 import { WorkspaceFile } from "@/types/workspace";
-import { AIGenerationResponseType } from "../aigenerationresponse";
 
 export class ServerWorkspace {
   static async deleteFile(params: { workspace: string; filename: string }) {
@@ -23,26 +22,9 @@ export class ServerWorkspace {
     }
   }
 
-  static async uploadFile(params: {
-    workspace: string;
-    filename: string;
-    file: Blob;
-  }) {
-    const workspaceDir = await ServerWorkspace.createWorkspace({
-      workspace: params.workspace,
-    });
-
-    const controller = new AbortController();
-    const { signal } = controller;
-    const filePath = path.join(workspaceDir, params.filename);
-    const fileBuffer = Buffer.from(await params.file.arrayBuffer());
-    const promise = fs.writeFile(filePath, fileBuffer, { signal });
-
-    await promise;
-  }
-
   static async listWorkspace(params: {
     workspace: string;
+    includeOnly?: (entry: Dirent) => boolean;
   }): Promise<WorkspaceFile[]> {
     const workspaceDir = await ServerWorkspace.createWorkspace({
       workspace: params.workspace,
@@ -55,7 +37,7 @@ export class ServerWorkspace {
       for (const entry of entries) {
         const entryPath = path.join(dirPath, entry.name);
 
-        if (entry.name === ".response" || entry.name === ".ctx") {
+        if (params.includeOnly && !params.includeOnly(entry)) {
           continue;
         }
 
@@ -93,29 +75,6 @@ export class ServerWorkspace {
     const workspaceDir = path.join(BASE_DIR, params.workspace);
     await fs.mkdir(workspaceDir, { recursive: true });
     return workspaceDir;
-  }
-
-  static async writeWorkspaceAiResponse(params: {
-    workspace: string;
-    response: AIGenerationResponseType;
-    context: number[];
-  }) {
-    const workspaceDir = await ServerWorkspace.createWorkspace({
-      workspace: params.workspace,
-    });
-
-    const { dependencies, code } = params.response;
-
-    await Promise.all([
-      this.writeFile(
-        workspaceDir,
-        ".response",
-        JSON.stringify(params.response),
-      ),
-      this.writeFile(workspaceDir, ".ctx", JSON.stringify(params.context)),
-      this.writeFile(workspaceDir, "generated_code.R", code),
-      this.writeFile(workspaceDir, "dependencies.txt", dependencies.join("\n")),
-    ]);
   }
 
   static async deleteAllFiles(params: { workspace: string }): Promise<void> {

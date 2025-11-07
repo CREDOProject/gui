@@ -1,10 +1,12 @@
 import { z } from "zod";
 
-export const ProjectList = z.array(
-  z.object({
-    id: z.string(),
-  }),
-);
+export const ProjectList = z.object({
+  files: z.array(
+    z.object({
+      name: z.string(),
+    }),
+  ),
+});
 
 export type ProjectListType = z.infer<typeof ProjectList>;
 

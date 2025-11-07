@@ -2,7 +2,7 @@ import { BaseService } from "./BaseService";
 import { IProjectService, ProjectListType } from "./ProjectService.interface";
 
 export class ProjectService extends BaseService implements IProjectService {
-  private baseUrl: string = "/api/project/";
+  private baseUrl: string = "/api/projects/";
 
   async createProject(projectName: string): Promise<unknown> {
     return this.handleRequest(this.baseUrl, {

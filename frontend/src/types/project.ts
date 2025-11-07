@@ -1,3 +1,4 @@
+import { ProjectListType } from "@/services/ProjectService.interface";
 import { z } from "zod";
 
 export const Project = z.object({
@@ -8,14 +9,10 @@ export const Project = z.object({
 
 export type ProjectType = z.infer<typeof Project>;
 
-export const ProjectList = z.array(Project);
-
-export type ProjectListType = z.infer<typeof ProjectList>;
-
 export interface ProjectHookResult {
   isLoading: boolean;
   projects: ProjectListType;
-  createProject(projectName: string): Promise<ProjectType>;
-  getProjects(): Promise<ProjectType[]>;
+  createProject(projectName: string): Promise<NewType>;
+  getProjects(): Promise<ProjectListType>;
   deleteProject(projectId: string): Promise<void>;
 }
