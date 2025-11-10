@@ -13,7 +13,7 @@ export class ProjectService extends BaseService implements IProjectService {
   }
 
   async getProjects(): Promise<ProjectListType> {
-    return (await this.handleRequest(this.baseUrl)) as Promise<ProjectListType>;
+    return this.handleRequest(this.baseUrl) as Promise<ProjectListType>;
   }
 
   async deleteProject(projectId: string): Promise<unknown> {

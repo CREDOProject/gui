@@ -14,7 +14,7 @@ export const useProjects = (
   const getProjects = useCallback(async (): Promise<ProjectListType> => {
     setIsLoading(true);
     const data = await projectService.getProjects();
-    setProjects(projects);
+    setProjects(data);
     setIsLoading(false);
     return data;
   }, []);
