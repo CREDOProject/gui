@@ -7,4 +7,5 @@ const PATHS = {
 const HomePage = () => {
   redirect(PATHS.APP);
 };
+
 export default HomePage;
