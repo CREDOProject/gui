@@ -1,0 +1,45 @@
+services:
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      AUTH_SECRET: please_change_this_secret_in_production_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      AUTH_URL: http://localhost:3000
+      BASE_DIR: /app/workspaces
+      PASSWD_FILE: /app/passwords/passwd.csv
+      DOCKER_SOCKET: /var/run/docker.sock
+      CONTAINER_NAME: credo-builder:latest
+    volumes:
+      - ./data/workspaces:/app/workspaces
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./passwords:/app/passwords:ro
+    depends_on:
+      - runner
+    restart: unless-stopped
+
+  admin:
+    build:
+      context: ../admin
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      BASE_DIR: /app/workspaces
+    volumes:
+      - ./data/workspaces:/app/workspaces
+    restart: unless-stopped
+
+  runner:
+    build:
+      context: ../runner
+      dockerfile: Dockerfile
+    image: credo-builder:latest
+    restart: never
+
+volumes:
+  data_workspaces:
+    driver: local
