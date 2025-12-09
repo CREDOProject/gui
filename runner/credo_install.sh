@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefile
+set -euo pipefail
 
 DEPENCENCIES="/credo_env/dependencies.txt"
 
