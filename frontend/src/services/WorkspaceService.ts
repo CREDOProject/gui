@@ -15,13 +15,43 @@ export class WorkspaceService extends BaseService implements IWorkspaceService {
     });
   }
 
+  addPackage(
+    packageName: string,
+    packageManager: string,
+    projectId?: string,
+  ): Promise<unknown> {
+    const url = projectId
+      ? `/api/workspace/package?project=${encodeURIComponent(projectId)}`
+      : `/api/workspace/package`;
+
+    return this.handleRequest(url, {
+      method: "POST",
+      body: JSON.stringify({ packageName, packageManager }),
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  removePackage(packageName: string, projectId?: string): Promise<unknown> {
+    const url = projectId
+      ? `/api/workspace/package?project=${encodeURIComponent(projectId)}&packageName=${encodeURIComponent(packageName)}`
+      : `/api/workspace/package?packageName=${encodeURIComponent(packageName)}`;
+
+    return this.handleRequest(url, {
+      method: "DELETE",
+    });
+  }
+
   deleteAll(): Promise<unknown> {
     return this.handleRequest(`${this.baseUrl}?all=true`, { method: "DELETE" });
   }
 
-  async getFiles(): Promise<WorkspaceResponse> {
+  async getFiles(projectId?: string): Promise<WorkspaceResponse> {
+    const url = projectId 
+        ? `${this.baseUrl}?project=${encodeURIComponent(projectId)}` 
+        : this.baseUrl;
+        
     return WorkspaceResponseSchema.parseAsync(
-      await this.handleRequest(this.baseUrl),
+      await this.handleRequest(url),
     );
   }
 

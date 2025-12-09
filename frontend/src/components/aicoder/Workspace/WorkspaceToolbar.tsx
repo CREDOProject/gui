@@ -17,7 +17,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogViewer } from "../LogViewer/LogViewer";
 
 export const WorkspaceToolbar = ({ workspace }: WorkspaceInjectable) => {
   const run = useCallback(async () => await workspace.handleRun(), [workspace]);
@@ -59,9 +58,6 @@ export const WorkspaceToolbar = ({ workspace }: WorkspaceInjectable) => {
             <DrawerTitle>Logs</DrawerTitle>
             <DrawerDescription>Showing the current logs.</DrawerDescription>
           </DrawerHeader>
-          <div className="max-w-[100ch] max-h-96 overflow-scroll mx-auto">
-            <LogViewer />
-          </div>
           <DrawerFooter>
             <DrawerClose asChild>
               <Button variant="outline">Close</Button>

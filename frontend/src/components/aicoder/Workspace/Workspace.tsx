@@ -4,16 +4,18 @@ import { useWorkspace } from "@/hooks/useWorkspace";
 import { WorkspaceService } from "@/services/WorkspaceService";
 import React from "react";
 import { WorkspaceViewer } from "./WorkspaceViewer";
-import { WorkspaceUploader } from "./WorkspaceUploader";
+import { PackageManager } from "./PackageManager";
 import { WorkspaceToolbar } from "./WorkspaceToolbar";
+import { DependencyList } from "./DependencyList";
 
-export const Workspace = () => {
-  const workspace = useWorkspace(new WorkspaceService());
+export const Workspace = ({ projectId }: { projectId?: string }) => {
+  const workspace = useWorkspace(new WorkspaceService(), projectId);
 
   return (
     <div className="space-y-4">
       <WorkspaceToolbar workspace={workspace} />
-      <WorkspaceUploader workspace={workspace} />
+      <PackageManager workspace={workspace} />
+      <DependencyList workspace={workspace} />
       <WorkspaceViewer workspace={workspace} />
     </div>
   );

@@ -17,6 +17,7 @@ export const WorkspaceFileSchema: z.ZodType<WorkspaceFile> = z.lazy(() =>
 export const WorkspaceResponseSchema = z.object({
   files: z.array(WorkspaceFileSchema),
   runnable: z.boolean(),
+  dependencies: z.array(z.string()).optional(),
 });
 
 export type WorkspaceResponse = z.infer<typeof WorkspaceResponseSchema>;
@@ -31,6 +32,8 @@ export interface WorkspaceHookResult extends WorkspaceResponse {
   handleRun: () => Promise<void>;
   loadFiles: () => Promise<void>;
   createDirectory: (directoryName: string) => Promise<void>;
+  addPackage: (packageName: string, packageManager: string) => Promise<void>;
+  removePackage: (packageName: string) => Promise<void>;
 }
 
 export interface WorkspaceInjectable {

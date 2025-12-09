@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 export const useWorkspace = (
   workspaceService: IWorkspaceService,
+  projectId?: string,
 ): WorkspaceHookResult => {
   const [files, setFiles] = useState<WorkspaceResponse>({
     files: [],
@@ -19,7 +20,7 @@ export const useWorkspace = (
   const loadFiles = useCallback(async () => {
     try {
       setIsLoading(true && files.files.length == 0);
-      const data = await workspaceService.getFiles();
+      const data = await workspaceService.getFiles(projectId);
       setFiles(data);
     } catch (error) {
       toast("Error loading file.");
@@ -28,7 +29,7 @@ export const useWorkspace = (
       setIsLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [files.files.length]);
+  }, [files.files.length, projectId]);
 
   const deleteFile = useCallback(async (fileName: string) => {
     try {
@@ -79,6 +80,45 @@ export const useWorkspace = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const addPackage = useCallback(
+    async (packageName: string, packageManager: string) => {
+      try {
+        toast("Adding package...", { description: packageName });
+        setIsUploading(true);
+        await workspaceService.addPackage(
+          packageName,
+          packageManager,
+          projectId,
+        );
+        await loadFiles();
+        toast(`Package ${packageName} added successfully.`);
+      } catch (error) {
+        toast("Error adding package.");
+        logManager.error("Error adding package:", error);
+      } finally {
+        setIsUploading(false);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [projectId],
+  );
+
+  const removePackage = useCallback(
+    async (packageName: string) => {
+      try {
+        toast("Removing package...", { description: packageName });
+        await workspaceService.removePackage(packageName, projectId);
+        await loadFiles();
+        toast(`Package ${packageName} removed successfully.`);
+      } catch (error) {
+        toast("Error removing package.");
+        logManager.error("Error removing package:", error);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [projectId],
+  );
+
   const handleRun = useCallback(async () => {
     try {
       await workspaceService.runWorkspace();
@@ -116,5 +156,7 @@ export const useWorkspace = (
     handleRun,
     loadFiles,
     createDirectory,
+    addPackage,
+    removePackage,
   };
 };

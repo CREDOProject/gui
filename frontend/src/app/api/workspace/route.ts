@@ -10,19 +10,26 @@ export const GET = auth(async function GET(req) {
 
   try {
     const workspace = req.auth.user.workspace;
+    const url = new URL(req.url);
+    const projectId = url.searchParams.get("project") || undefined;
+
     await ServerWorkspace.createWorkspace({ workspace });
 
-    const files = await ServerWorkspace.listWorkspace({ workspace });
+    const files = await ServerWorkspace.listWorkspace({ workspace, projectId });
+    const dependencies = await ServerWorkspace.getDependencies({
+      workspace,
+      projectId,
+    });
 
-    const hasGeneratedCode = files.some(
-      (file) => !file.isDir && file.name === "generated_code.R",
-    );
+    // const hasGeneratedCode = files.some(
+    //   (file) => !file.isDir && file.name === "generated_code.R",
+    // );
     const hasDependencies = files.some(
       (file) => !file.isDir && file.name === "dependencies.txt",
     );
-    const runnable = hasGeneratedCode && hasDependencies;
+    const runnable = hasDependencies;
 
-    return NextResponse.json({ files, runnable });
+    return NextResponse.json({ files, dependencies, runnable });
   } catch (error) {
     return ErrorHandler.handle(error);
   }
