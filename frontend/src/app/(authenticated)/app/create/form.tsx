@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useProjects } from "@/hooks/useProjects";
 import { ProjectService } from "@/services/ProjectService";
 import { useRouter } from "next/navigation";
+import { toKebabCase } from "@/lib/utils";
 
 const formSchema = z.object({
   projectName: z.string().min(1),
@@ -33,8 +34,9 @@ export function NewProjectForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await project.createProject(values.projectName);
-    router.push(`/app/project/${values.projectName}`);
+    const kebabCaseProjectName = toKebabCase(values.projectName);
+    await project.createProject(kebabCaseProjectName);
+    router.push(`/app/project/${kebabCaseProjectName}`);
   }
 
   return (
