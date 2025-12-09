@@ -9,8 +9,6 @@ interface FrontendEnvVars {
   CONTAINER_NAME: string;
   DOCKER_SOCKET: string;
   NODE_ENV: "development" | "production" | "test";
-  OLLAMA_HOST: string;
-  OPENAI_API_KEY: string;
   PASSWD_FILE: string;
 }
 
@@ -25,8 +23,6 @@ const parseEnvironment = (): FrontendEnvVars => {
     CONTAINER_NAME,
     DOCKER_SOCKET,
     NODE_ENV,
-    OLLAMA_HOST,
-    OPENAI_API_KEY,
     PASSWD_FILE,
   } = process.env;
 
@@ -34,8 +30,6 @@ const parseEnvironment = (): FrontendEnvVars => {
   if (!AUTH_TRUST_HOST) throw new Error("AUTH_TRUST_HOST is required");
   if (!AUTH_URL) throw new Error("AUTH_URL is required");
   if (!BASE_DIR) throw new Error("BASE_DIR is required");
-  if (!OLLAMA_HOST) throw new Error("OLLAMA_HOST is required");
-  if (!OPENAI_API_KEY) throw new Error("OPENAI_API_KEY is required");
   if (!PASSWD_FILE) throw new Error("PASSWD_FILE is required");
 
   return {
@@ -48,8 +42,6 @@ const parseEnvironment = (): FrontendEnvVars => {
     CONTAINER_NAME: CONTAINER_NAME || ("credo-builder:latest" as const),
     DOCKER_SOCKET: DOCKER_SOCKET || ("/var/run/docker.sock" as const),
     NODE_ENV: NODE_ENV || ("development" as const),
-    OLLAMA_HOST,
-    OPENAI_API_KEY,
     PASSWD_FILE,
   };
 };
@@ -64,7 +56,5 @@ export const {
   CONTAINER_NAME,
   DOCKER_SOCKET,
   NODE_ENV,
-  OLLAMA_HOST,
-  OPENAI_API_KEY,
   PASSWD_FILE,
 } = parseEnvironment();
