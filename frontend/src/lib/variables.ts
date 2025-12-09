@@ -45,7 +45,7 @@ const parseEnvironment = (): FrontendEnvVars => {
     AUTH_TRUST_HOST: JSON.parse(AUTH_TRUST_HOST) as boolean,
     AUTH_URL,
     BASE_DIR,
-    CONTAINER_NAME: CONTAINER_NAME || ("aicoder-runner:latest" as const),
+    CONTAINER_NAME: CONTAINER_NAME || ("credo-builder:latest" as const),
     DOCKER_SOCKET: DOCKER_SOCKET || ("/var/run/docker.sock" as const),
     NODE_ENV: NODE_ENV || ("development" as const),
     OLLAMA_HOST,
