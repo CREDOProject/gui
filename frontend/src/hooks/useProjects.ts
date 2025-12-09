@@ -17,14 +17,14 @@ export const useProjects = (
     setProjects(data);
     setIsLoading(false);
     return data;
-  }, []);
+  }, [projectService]);
 
   const deleteProject = useCallback(
     async (projectId: string): Promise<void> => {
       await projectService.deleteProject(projectId);
       await getProjects();
     },
-    [],
+    [projectService, getProjects],
   );
 
   const createProject = useCallback(
@@ -33,12 +33,12 @@ export const useProjects = (
       await getProjects();
       return newProject as ProjectType;
     },
-    [],
+    [projectService, getProjects],
   );
 
   useEffect(() => {
     getProjects();
-  }, []);
+  }, [getProjects]);
 
   return {
     projects,

@@ -128,7 +128,7 @@ export const useWorkspace = (
       logManager.error("Error running workspace:", error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [workspaceService]);
 
   const createDirectory = useCallback(async (directoryName: string) => {
     try {
