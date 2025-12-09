@@ -5,9 +5,11 @@ import { CreateNewProjectButton } from "./CreateNewProjectButton";
 import Link from "next/link";
 import { useProjects } from "@/hooks/useProjects";
 import { ProjectService } from "@/services/ProjectService";
+import { useMemo } from "react";
 
 export const UserWorkspace = () => {
-  const projects = useProjects(new ProjectService());
+  const projectService = useMemo(() => new ProjectService(), []);
+  const projects = useProjects(projectService);
   if (projects.isLoading) {
     return (
       <div className="flex justify-center items-center h-32">
