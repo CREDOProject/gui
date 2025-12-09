@@ -13,7 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { SettingsIcon } from "lucide-react";
-import { Configuration } from "@/components/aicoder/Configuration/Configuration";
+// import { Configuration } from "@/components/aicoder/Configuration/Configuration";
 import { Toaster } from "@/components/ui/sonner";
 import Link from "next/link";
 
@@ -78,7 +78,7 @@ const Header = async ({ session }: { session: Session }) => (
               <DialogTitle>User Settings</DialogTitle>
               <DialogDescription></DialogDescription>
             </DialogHeader>
-            <Configuration />
+            {/* <Configuration /> */}
           </DialogContent>
         </Dialog>
         <SignOutButton />
