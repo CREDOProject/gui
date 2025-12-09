@@ -8,7 +8,7 @@ services:
     environment:
       NODE_ENV: production
       AUTH_SECRET: please_change_this_secret_in_production_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      AUTH_URL: http://localhost:3000
+      AUTH_URL: http://hibbi.hpc4ai.unito.it:4322
       BASE_DIR: /app/workspaces
       PASSWD_FILE: /app/passwords/passwd.csv
       DOCKER_SOCKET: /var/run/docker.sock
