@@ -15,6 +15,7 @@ import {
 import { SettingsIcon } from "lucide-react";
 import { Configuration } from "@/components/aicoder/Configuration/Configuration";
 import { Toaster } from "@/components/ui/sonner";
+import Link from "next/link";
 
 const PATHS = {
   SIGN_IN: "/signin",
@@ -47,7 +48,7 @@ const SignOutButton = () => (
 );
 
 const AppTitle = ({ title, beta }: { title: string; beta: boolean }) => (
-  <p className="text-sm bold">
+  <Link href="/app" className="text-sm bold">
     {title}
     {beta && (
       <>
@@ -57,7 +58,7 @@ const AppTitle = ({ title, beta }: { title: string; beta: boolean }) => (
         </span>
       </>
     )}
-  </p>
+  </Link>
 );
 
 const Header = async ({ session }: { session: Session }) => (

@@ -44,7 +44,7 @@ export const UserWorkspace = () => {
           ) : (
             files.map((project) => (
               <TableRow key={project.name} className="hover:bg-muted">
-                <td>
+                <td className="p-2">
                   <Link
                     href={`/app/project/${project.name}`}
                     className="w-full py-2 block"
