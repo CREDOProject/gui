@@ -7,18 +7,18 @@ services:
         - NODE_ENV=production
         - AUTH_SECRET="q032tBuduPbkimbbtLB1TN1iR4RdMkqwDkJa6EtZ7Xg="
         - AUTH_TRUST_HOST=true
-        - AUTH_URL=http://hibbi.hpc4ai.unito.it:4322
+        - AUTH_URL=http://hibbi.hpc4ai.unito.it:7076
         - BASE_DIR=/app/workspaces
         - PASSWD_FILE=/app/passwords/passwd.csv
         - DOCKER_SOCKET=/var/run/docker.sock
         - CONTAINER_NAME=credo-builder:latest
     ports:
-      - "4322:3000"
+      - "7076:3000"
     environment:
       - NODE_ENV=production
       - AUTH_SECRET="q032tBuduPbkimbbtLB1TN1iR4RdMkqwDkJa6EtZ7Xg="
       - AUTH_TRUST_HOST=true
-      - AUTH_URL=http://hibbi.hpc4ai.unito.it:4322
+      - AUTH_URL=http://hibbi.hpc4ai.unito.it:7076
       - BASE_DIR=/app/workspaces
       - PASSWD_FILE=/app/passwords/passwd.csv
       - DOCKER_SOCKET=/var/run/docker.sock
@@ -48,7 +48,7 @@ services:
       context: ../runner
       dockerfile: Dockerfile
     image: credo-builder:latest
-    restart: never
+    restart: no
 
 volumes:
   data_workspaces:
