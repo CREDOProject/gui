@@ -1,0 +1,4 @@
+https://hibbi.hpc4ai.unito.it:7073 {
+		tls internal
+		reverse_proxy http://credo-frontend:3000
+}
