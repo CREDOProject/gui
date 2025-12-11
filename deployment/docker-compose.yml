@@ -3,7 +3,7 @@ services:
     build:
       context: ../reverse-proxy
     ports:
-      - 4321:4321
+      - 7073:7073
     volumes:
       - credo_caddy_data:/data
   credo-frontend:
@@ -33,7 +33,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./passwords:/app/passwords:ro
     depends_on:
-      - runner
+      - credo-runner
     restart: unless-stopped
 
   credo-admin:
