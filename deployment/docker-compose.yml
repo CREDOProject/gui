@@ -1,5 +1,5 @@
 services:
-  frontend:
+  credo-frontend:
     build:
       context: ../frontend
       dockerfile: Dockerfile
@@ -31,7 +31,7 @@ services:
       - runner
     restart: unless-stopped
 
-  admin:
+  credo-admin:
     build:
       context: ../admin
       dockerfile: Dockerfile
@@ -43,7 +43,7 @@ services:
       - ./data/workspaces:/app/workspaces
     restart: unless-stopped
 
-  runner:
+  credo-runner:
     build:
       context: ../runner
       dockerfile: Dockerfile
