@@ -1,4 +1,11 @@
 services:
+  credo-reverse:
+    build:
+      context: ../reverse-proxy
+    ports:
+      - 4321:4321
+    volumes:
+      - credo_caddy_data:/data
   credo-frontend:
     build:
       context: ../frontend
@@ -12,8 +19,6 @@ services:
         - PASSWD_FILE=/app/passwords/passwd.csv
         - DOCKER_SOCKET=/var/run/docker.sock
         - CONTAINER_NAME=credo-builder:latest
-    ports:
-      - "7073:3000"
     environment:
       - NODE_ENV=production
       - AUTH_SECRET="q032tBuduPbkimbbtLB1TN1iR4RdMkqwDkJa6EtZ7Xg="
@@ -35,8 +40,6 @@ services:
     build:
       context: ../admin
       dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
     environment:
       - BASE_DIR=/app/workspaces
     volumes:
@@ -52,4 +55,6 @@ services:
 
 volumes:
   data_workspaces:
+    driver: local
+  credo_caddy_data:
     driver: local
