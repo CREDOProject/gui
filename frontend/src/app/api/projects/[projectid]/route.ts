@@ -21,15 +21,17 @@ export const GET = auth(async function GET(
       workspace,
       includeOnly: (entry) => entry.isDirectory() && entry.name === projectid,
     });
-    
+
     if (files.length === 0) {
-      return NextResponse.json({ message: "Project not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Project not found" },
+        { status: 404 },
+      );
     }
-    
+
     // In a real app, you might want to return more details about the project
     // For now, we just confirm it exists and return its name
     return NextResponse.json({ id: projectid, name: projectid });
-
   } catch (error) {
     return ErrorHandler.handle(error);
   }

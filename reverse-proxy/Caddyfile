@@ -1,4 +1,4 @@
-https://130.192.212.153:7076 {
-		tls internal
+http://130.192.212.153:7076 {
+		# tls internal
 		reverse_proxy http://credo-frontend:3000
 }

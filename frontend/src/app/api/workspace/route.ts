@@ -11,7 +11,7 @@ export const GET = auth(async function GET(req) {
   try {
     const workspace = req.auth.user.workspace;
     const url = new URL(req.url);
-    const projectId = url.searchParams.get("project") || undefined;
+    const projectId = url.searchParams.get("project") || "default-project";
 
     await ServerWorkspace.createWorkspace({ workspace });
 

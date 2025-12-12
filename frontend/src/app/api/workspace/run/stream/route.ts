@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
-import { streamContainerOutput } from "@/lib/docker";
+import { nameFromProject, streamContainerOutput } from "@/lib/docker";
 import { BASE_DIR } from "@/lib/variables";
 
 export const GET = auth(async function GET(req) {
@@ -14,9 +14,12 @@ export const GET = auth(async function GET(req) {
     const directoryPath = path.join(BASE_DIR, req.auth.user.workspace);
     await fs.mkdir(directoryPath, { recursive: true });
 
-    const userUUID = req.auth.user.workspace;
+    const url = new URL(req.url);
+    const projectId = url.searchParams.get("project") || "default-project";
 
-    const logIterator = containerLogIterator(userUUID);
+    const containerName = nameFromProject(req.auth.user.workspace, projectId);
+
+    const logIterator = containerLogIterator(containerName);
     const stream = iteratorToStream(logIterator);
 
     return new Response(stream, {

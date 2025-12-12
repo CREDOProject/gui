@@ -5,6 +5,15 @@ import { logManager } from "./logger/LogManager";
 
 const docker = new Docker({ socketPath: DOCKER_SOCKET });
 
+export const nameFromProject = (
+  userUUID: string,
+  projectName: string,
+): string => {
+  return `${userUUID}__${projectName}`
+    .toLowerCase()
+    .replace(/[^a-z0-9-_]/g, "_");
+};
+
 export const runContainer = async (
   userUUID: string,
   directoryPath: string,
@@ -16,10 +25,10 @@ export const runContainer = async (
       Image: containerName,
       Tty: true,
       HostConfig: {
-        Binds: [`${directoryPath}:/workdir`],
+        Binds: [`${directoryPath}:/credo_env`],
         AutoRemove: true,
       },
-      WorkingDir: "/workdir",
+      WorkingDir: "/credo_env",
     });
 
     await container.start();

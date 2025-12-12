@@ -14,7 +14,7 @@ services:
         - NODE_ENV=production
         - AUTH_SECRET="q032tBuduPbkimbbtLB1TN1iR4RdMkqwDkJa6EtZ7Xg="
         - AUTH_TRUST_HOST=true
-        - AUTH_URL=https://130.192.212.153:7076/
+        - AUTH_URL=http://130.192.212.153:7076/
         - BASE_DIR=/app/workspaces
         - PASSWD_FILE=/app/passwords/passwd.csv
         - DOCKER_SOCKET=/var/run/docker.sock
@@ -23,7 +23,7 @@ services:
       - NODE_ENV=production
       - AUTH_SECRET="q032tBuduPbkimbbtLB1TN1iR4RdMkqwDkJa6EtZ7Xg="
       - AUTH_TRUST_HOST=true
-      - AUTH_URL=https://130.192.212.153:7076/
+      - AUTH_URL=http://130.192.212.153:7076/
       - BASE_DIR=/app/workspaces
       - PASSWD_FILE=/app/passwords/passwd.csv
       - DOCKER_SOCKET=/var/run/docker.sock
