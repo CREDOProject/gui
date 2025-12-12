@@ -3,7 +3,7 @@ services:
     build:
       context: ../reverse-proxy
     ports:
-      - 7073:7073
+      - 7076:7076
     volumes:
       - credo_caddy_data:/data
   credo-frontend:
@@ -14,7 +14,7 @@ services:
         - NODE_ENV=production
         - AUTH_SECRET="q032tBuduPbkimbbtLB1TN1iR4RdMkqwDkJa6EtZ7Xg="
         - AUTH_TRUST_HOST=true
-        - AUTH_URL=https://hibbi.hpc4ai.unito.it:7073/
+        - AUTH_URL=https://130.192.212.153:7076/
         - BASE_DIR=/app/workspaces
         - PASSWD_FILE=/app/passwords/passwd.csv
         - DOCKER_SOCKET=/var/run/docker.sock
@@ -23,7 +23,7 @@ services:
       - NODE_ENV=production
       - AUTH_SECRET="q032tBuduPbkimbbtLB1TN1iR4RdMkqwDkJa6EtZ7Xg="
       - AUTH_TRUST_HOST=true
-      - AUTH_URL=https://hibbi.hpc4ai.unito.it:7073/
+      - AUTH_URL=https://130.192.212.153:7076/
       - BASE_DIR=/app/workspaces
       - PASSWD_FILE=/app/passwords/passwd.csv
       - DOCKER_SOCKET=/var/run/docker.sock
